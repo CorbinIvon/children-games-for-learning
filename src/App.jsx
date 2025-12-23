@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainMenu from "./components/MainMenu";
+import KeyboardGame from "./games/KeyboardGame";
 
 function App() {
   return (
@@ -26,12 +27,7 @@ function App() {
               <div className="text-white p-10">Words Game Placeholder</div>
             }
           />
-          <Route
-            path="/games/keyboard"
-            element={
-              <div className="text-white p-10">Keyboard Game Placeholder</div>
-            }
-          />
+          <Route path="/games/keyboard" element={<KeyboardGame />} />
         </Routes>
       </div>
     </Router>
