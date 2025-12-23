@@ -156,16 +156,28 @@ const KeyboardGame = () => {
         window.speechSynthesis.cancel(); // Stop overlap
         const utterance = new SpeechSynthesisUtterance();
 
+        const isNumber = /^[0-9]$/.test(char);
+        const word = getWordForChar(char);
         let text = "";
-        if (settings.readLetter) text += `${char}. `;
-        if (settings.readWord) {
-          const word = getWordForChar(char);
-          if (word) text += `${word}.`;
+
+        if (isNumber) {
+          // For numbers, read only once: word preferred if enabled, else letter
+          if (settings.readWord && word) {
+            text = word;
+          } else if (settings.readLetter) {
+            text = char;
+          }
+        } else {
+          // For letters, keep "Letter... Word" sequence
+          if (settings.readLetter) text += `${char}. `;
+          if (settings.readWord && word) text += `${word}.`;
         }
 
-        utterance.text = text;
-        // utterance.rate = 0.9; // Slightly slower for kids
-        window.speechSynthesis.speak(utterance);
+        if (text) {
+          utterance.text = text;
+          // utterance.rate = 0.9; // Slightly slower for kids
+          window.speechSynthesis.speak(utterance);
+        }
       }
 
       // 3. Visual: Background Effect
