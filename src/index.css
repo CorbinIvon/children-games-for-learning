@@ -16,7 +16,7 @@
     @apply px-4 py-2 border-4 border-retro-black shadow-retro 
            bg-retro-gray text-retro-black font-display text-sm
            active:shadow-none active:translate-x-[4px] active:translate-y-[4px]
-           hover:bg-retro-white transition-none;
+           hover:bg-retro-white transition-none select-none;
   }
 
   .window-retro {

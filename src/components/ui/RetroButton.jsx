@@ -13,7 +13,11 @@ const RetroButton = ({ children, onClick, color = "gray", className = "" }) => {
 
   return (
     <button
-      onClick={onClick}
+      onPointerDown={(e) => {
+        // Prevent default to avoid selection/dragging issues on long press
+        // e.preventDefault();
+        if (onClick) onClick(e);
+      }}
       className={`btn-retro ${bgClass} ${textClass} ${className}`}
     >
       {children}
