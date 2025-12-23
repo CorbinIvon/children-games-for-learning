@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-retro-darkgray font-retro text-retro-white;
+    image-rendering: pixelated;
+  }
+}
+
+@layer components {
+  .btn-retro {
+    @apply px-4 py-2 border-4 border-retro-black shadow-retro 
+           bg-retro-gray text-retro-black font-display text-sm
+           active:shadow-none active:translate-x-[4px] active:translate-y-[4px]
+           hover:bg-retro-white transition-none;
+  }
+
+  .window-retro {
+    @apply border-4 border-retro-black shadow-retro bg-retro-gray p-4;
+  }
+}
