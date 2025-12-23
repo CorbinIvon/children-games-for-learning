@@ -11,6 +11,13 @@ const KEYBOARD_ROWS = [
   ["Z", "X", "C", "V", "B", "N", "M"],
 ];
 
+const ALPHA_ROWS = [
+  ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
+  ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
+  ["K", "L", "M", "N", "O", "P", "Q", "R", "S", "T"],
+  ["U", "V", "W", "X", "Y", "Z"],
+];
+
 const COLORS = [
   "red",
   "green",
@@ -140,6 +147,7 @@ const KeyboardGame = () => {
     randomColors: true,
     backgroundEffects: true,
     fullscreen: false,
+    qwerty: true,
   });
 
   // Handle Fullscreen Side Effect
@@ -277,7 +285,7 @@ const KeyboardGame = () => {
           )}
         </div>
 
-        {KEYBOARD_ROWS.map((row, i) => (
+        {(settings.qwerty ? KEYBOARD_ROWS : ALPHA_ROWS).map((row, i) => (
           <div key={i} className="flex gap-2">
             {row.map((char) => (
               <RetroButton
