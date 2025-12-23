@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainMenu from "./components/MainMenu";
 import KeyboardGame from "./games/KeyboardGame";
 
 function App() {
+  useEffect(() => {
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+    };
+    window.addEventListener("contextmenu", handleContextMenu);
+    return () => window.removeEventListener("contextmenu", handleContextMenu);
+  }, []);
+
   return (
     <Router>
-      <div className="min-h-screen font-retro selection:bg-retro-magenta selection:text-white">
+      <div className="min-h-screen font-retro">
         <Routes>
           <Route path="/" element={<MainMenu />} />
           <Route

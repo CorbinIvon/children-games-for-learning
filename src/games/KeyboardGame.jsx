@@ -139,7 +139,25 @@ const KeyboardGame = () => {
     showImage: true,
     randomColors: true,
     backgroundEffects: true,
+    fullscreen: false,
   });
+
+  // Handle Fullscreen Side Effect
+  useEffect(() => {
+    if (settings.fullscreen) {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch((e) => {
+          console.error(`Error attempting to enable fullscreen: ${e.message}`);
+        });
+      }
+    } else {
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch((e) => {
+          console.error(`Error attempting to exit fullscreen: ${e.message}`);
+        });
+      }
+    }
+  }, [settings.fullscreen]);
 
   // Word mapping using assigned logic
   const getWordForChar = (char) => {
@@ -248,9 +266,9 @@ const KeyboardGame = () => {
       </div>
 
       {/* On-Screen Keyboard */}
-      <div className="p-4 bg-retro-black/20 flex flex-col gap-2 items-center justify-center w-full">
+      <div className="p-2 md:p-4 bg-retro-black/20 flex flex-col gap-1 md:gap-2 items-center justify-center w-full shrink-0">
         {/* Static Word Display */}
-        <div className="h-16 flex items-center justify-center mb-2">
+        <div className="h-12 md:h-16 flex items-center justify-center mb-1">
           {activeKey && settings.showImage && getWordForChar(activeKey) && (
             <div className="text-4xl text-retro-yellow font-retro bg-black/50 px-8 py-2 rounded border-2 border-retro-white shadow-retro">
               {getWordForChar(activeKey)}

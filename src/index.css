@@ -6,8 +6,10 @@
 
 @layer base {
   body {
-    @apply bg-retro-darkgray font-retro text-retro-white;
+    @apply bg-retro-darkgray font-retro text-retro-white overflow-hidden select-none;
     image-rendering: pixelated;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
   }
 }
 

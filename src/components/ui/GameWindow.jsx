@@ -7,9 +7,9 @@ const GameWindow = ({ title, children, onSettingsClick }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-retro-blue pattern-dots p-4 flex flex-col">
+    <div className="h-[100dvh] bg-retro-blue pattern-dots p-2 md:p-4 flex flex-col overflow-hidden">
       {/* Top Bar */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-2 md:mb-4">
         <RetroButton
           onClick={() => navigate("/")}
           color="red"
