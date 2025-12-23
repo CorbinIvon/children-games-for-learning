@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import GameWindow from "../components/ui/GameWindow";
 import SettingsModal from "../components/ui/SettingsModal";
 import RetroButton from "../components/ui/RetroButton";
+import Fanfare from "../components/ui/Fanfare";
 import { useSettings } from "../context/SettingsContext";
 
 // QWERTY Layout rows
@@ -93,6 +94,7 @@ const KeyboardGame = () => {
   const [activeKey, setActiveKey] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
   const [bgColor, setBgColor] = useState("bg-retro-darkgray");
+  const fanfareRef = useRef(null);
 
   // Initialize random colors for each key on mount
   const [keyColors, setKeyColors] = useState({});
@@ -221,6 +223,12 @@ const KeyboardGame = () => {
     toggleSetting(key);
   };
 
+  const handleTestFanfare = () => {
+    if (fanfareRef.current) {
+      fanfareRef.current.trigger();
+    }
+  };
+
   // Helper to determine key color
   const getKeyColor = (char) => {
     if (activeKey === char) return "white"; // Highlight
@@ -240,7 +248,9 @@ const KeyboardGame = () => {
         onClose={() => setShowSettings(false)}
         settings={settings}
         onToggle={toggleSettingHandler}
+        onTestFanfare={handleTestFanfare}
       />
+      <Fanfare ref={fanfareRef} />
 
       {/* Main Display Area */}
       <div

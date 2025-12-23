@@ -2,7 +2,13 @@ import React from "react";
 import RetroButton from "./RetroButton";
 import { X } from "lucide-react";
 
-const SettingsModal = ({ isOpen, onClose, settings, onToggle }) => {
+const SettingsModal = ({
+  isOpen,
+  onClose,
+  settings,
+  onToggle,
+  onTestFanfare,
+}) => {
   if (!isOpen) return null;
 
   return (
@@ -38,8 +44,15 @@ const SettingsModal = ({ isOpen, onClose, settings, onToggle }) => {
           ))}
         </div>
 
-        <div className="mt-8 flex justify-end">
-          <RetroButton onClick={onClose} color="blue">
+        <div className="mt-8 flex justify-between gap-4">
+          <RetroButton
+            onClick={onTestFanfare}
+            color="yellow"
+            className="flex-1"
+          >
+            TEST CELEBRATION
+          </RetroButton>
+          <RetroButton onClick={onClose} color="blue" className="w-24">
             CLOSE
           </RetroButton>
         </div>
