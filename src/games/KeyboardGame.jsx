@@ -164,50 +164,45 @@ const KeyboardGame = () => {
     return keyWords[char] || "";
   };
 
+  const speak = useCallback((text) => {
+    if ("speechSynthesis" in window && text) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.speak(utterance);
+    }
+  }, []);
+
   const handleKeyPress = useCallback(
     (key) => {
       const char = key.toUpperCase();
       setActiveKey(char);
 
       // 1. Audio: Speech
-      if ("speechSynthesis" in window) {
-        window.speechSynthesis.cancel(); // Stop overlap
-        const utterance = new SpeechSynthesisUtterance();
+      const isNumber = /^[0-9]$/.test(char);
+      const word = getWordForChar(char);
+      let text = "";
 
-        const isNumber = /^[0-9]$/.test(char);
-        const word = getWordForChar(char);
-        let text = "";
-
-        if (isNumber) {
-          // For numbers, read only once: word preferred if enabled, else letter
-          if (settings.readWord && word) {
-            text = word;
-          } else if (settings.readLetter) {
-            text = char;
-          }
-        } else {
-          // For letters, keep "Letter... Word" sequence
-          if (settings.readLetter) text += `${char}. `;
-          if (settings.readWord && word) text += `${word}.`;
+      if (isNumber) {
+        if (settings.readWord && word) {
+          text = word;
+        } else if (settings.readLetter) {
+          text = char;
         }
-
-        if (text) {
-          utterance.text = text;
-          // utterance.rate = 0.9; // Slightly slower for kids
-          window.speechSynthesis.speak(utterance);
-        }
+      } else {
+        if (settings.readLetter) text += `${char}. `;
+        if (settings.readWord && word) text += `${word}.`;
       }
+      speak(text);
 
       // 3. Visual: Background Effect
       if (settings.backgroundEffects) {
-        // Use the assigned color for this key
         const keyColor = keyColors[char];
         if (keyColor && BG_CLASSES[keyColor]) {
           setBgColor(BG_CLASSES[keyColor]);
         }
       }
     },
-    [settings, keyColors, keyWords]
+    [settings, keyColors, keyWords, speak]
   );
 
   // Physical Keyboard Listener
@@ -252,7 +247,10 @@ const KeyboardGame = () => {
         className={`flex-1 flex flex-col items-center justify-center transition-colors duration-200 ${bgColor}`}
       >
         {activeKey && (
-          <div className="text-center animate-bounce">
+          <div
+            className="text-center animate-bounce cursor-pointer active:scale-110 transition-transform"
+            onPointerDown={() => speak(activeKey)}
+          >
             <h1 className="text-[120px] font-display text-retro-white drop-shadow-[8px_8px_0_rgba(0,0,0,1)]">
               {activeKey}
             </h1>
@@ -270,7 +268,10 @@ const KeyboardGame = () => {
         {/* Static Word Display */}
         <div className="h-12 md:h-16 flex items-center justify-center mb-1">
           {activeKey && settings.showImage && getWordForChar(activeKey) && (
-            <div className="text-4xl text-retro-yellow font-retro bg-black/50 px-8 py-2 rounded border-2 border-retro-white shadow-retro">
+            <div
+              className="text-4xl text-retro-yellow font-retro bg-black/50 px-8 py-2 rounded border-2 border-retro-white shadow-retro cursor-pointer active:scale-95 transition-transform"
+              onPointerDown={() => speak(getWordForChar(activeKey))}
+            >
               {getWordForChar(activeKey)}
             </div>
           )}
