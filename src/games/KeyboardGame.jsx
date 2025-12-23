@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import GameWindow from "../components/ui/GameWindow";
 import SettingsModal from "../components/ui/SettingsModal";
 import RetroButton from "../components/ui/RetroButton";
+import { useSettings } from "../context/SettingsContext";
 
 // QWERTY Layout rows
 const KEYBOARD_ROWS = [
@@ -139,16 +140,7 @@ const KeyboardGame = () => {
     setKeyWords(newWords);
   }, []); // Run once on mount
 
-  // Settings State
-  const [settings, setSettings] = useState({
-    readLetter: true,
-    readWord: true,
-    showImage: true,
-    randomColors: true,
-    backgroundEffects: true,
-    fullscreen: false,
-    qwerty: true,
-  });
+  const { settings, toggleSetting } = useSettings();
 
   // Handle Fullscreen Side Effect
   useEffect(() => {
@@ -225,8 +217,8 @@ const KeyboardGame = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyPress]);
 
-  const toggleSetting = (key) => {
-    setSettings((prev) => ({ ...prev, [key]: !prev[key] }));
+  const toggleSettingHandler = (key) => {
+    toggleSetting(key);
   };
 
   // Helper to determine key color
@@ -247,7 +239,7 @@ const KeyboardGame = () => {
         isOpen={showSettings}
         onClose={() => setShowSettings(false)}
         settings={settings}
-        onToggle={toggleSetting}
+        onToggle={toggleSettingHandler}
       />
 
       {/* Main Display Area */}
