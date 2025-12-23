@@ -2,9 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import RetroButton from "./ui/RetroButton";
 import { Settings, X } from "lucide-react";
+import SettingsModal from "./ui/SettingsModal";
+import { useSettings } from "../context/SettingsContext";
 
 const MainMenu = () => {
   const navigate = useNavigate();
+  const [showSettings, setShowSettings] = React.useState(false);
+  const { settings, toggleSetting } = useSettings();
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-retro-blue pattern-dots">
@@ -46,7 +50,7 @@ const MainMenu = () => {
 
         <div className="flex gap-4 w-full mt-4">
           <RetroButton
-            onClick={() => console.log("Settings")}
+            onClick={() => setShowSettings(true)}
             color="gray"
             className="flex-1 flex justify-center"
           >
@@ -60,6 +64,12 @@ const MainMenu = () => {
             Exit
           </RetroButton>
         </div>
+        <SettingsModal
+          isOpen={showSettings}
+          onClose={() => setShowSettings(false)}
+          settings={settings}
+          onToggle={toggleSetting}
+        />
       </div>
 
       <div className="mt-8 text-retro-white text-sm font-retro">
